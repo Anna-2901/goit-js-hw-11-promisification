@@ -1,4 +1,5 @@
-// Перепиши функцию makeTransaction() так, чтобы она не использовала callback - функции onSuccess и onError,
+// Перепиши функцию makeTransaction() так, 
+// чтобы она не использовала callback - функции onSuccess и onError,
 // а принимала всего один параметр transaction и возвращала промис.
 
 const randomIntegerFromInterval = (min, max) => {
@@ -8,24 +9,24 @@ const randomIntegerFromInterval = (min, max) => {
 const makeTransaction = (transaction) => {
     return new Promise((res, rej) => {
         const delay = randomIntegerFromInterval(200, 500);
-
+        const { id } = transaction;
         setTimeout(() => {
             const canProcess = Math.random() > 0.3;
 
             if (canProcess) {
-                res(transaction.id, delay);
-            } else {
-                rej(transaction.id);
-            }
-        }, delay);
+              res({ id, delay });
+            } 
+              rej(id );
+            },
+         delay);
     });
 };
 
-const logSuccess = (id, time) => {
-  console.log(`Transaction ${id} processed in ${time}ms`);
+const logSuccess = ({id, delay}) => {
+  console.log(`Transaction ${id} processed in ${delay}ms`);
 };
 
-const logError = id => {
+const logError = (id) => {
   console.warn(`Error processing transaction ${id}. Please try again later.`);
 };
 
